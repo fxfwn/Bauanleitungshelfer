@@ -1,5 +1,7 @@
 package Logisch;
 
+import Entities.Bauanleitung;
+
 public interface UserService {
-    void bauanleitungSuchen(Bauanleitung ba);
-    }
+    Bauanleitung bauanleitungSuchen(String name);
+}

@@ -1,61 +1,34 @@
-import Logisch.*;
-import sqlTabellenErstellen.*;
-
-import java.sql.*;
+import Entities.Bauanleitung;
+import Logisch.UserService;
+import dao.BauanleitungDAO;
 
 
 public class BauanleitungVerwaltung implements UserService
 {
-    public static void connect() {
-        String url = "jdbc:sqlite:database/Bauanleitung.db";
-
-        try (Connection conn = DriverManager.getConnection(url))
-        {
-            if (conn != null) {
-                DatabaseMetaData meta = conn.getMetaData();
-                String[] types = {"TABLE"};
-                ResultSet rs = meta.getTables(null, null, "%", types);
-
-                System.out.println("Erstellte Tabelle:");
-                while (rs.next())
-                {
-                    System.out.println(rs.getString("TABLE_NAME"));
-                }
-                /*
-                Statement stmt = conn.createStatement();
-                for (TabelleErstellen te : TabelleErstellen.values())
-                {
-                    stmt.execute(te.sql);
-                }
-
-                System.out.println("Tabelle wurde erfolgreich erstellt.");*/
-            }
-            else
-            {
-                System.out.println("Tabelle existiert bereits oder ist nicht vorhanden.");
-            }
-
-        }
-        catch (SQLException e)
-        {
-            System.out.println("Verbindung fehlgeschlagen: " + e.getMessage());
-        }
-    }
-
     public static void main(String[] args) {
-        connect();
+        //DBConnection.connect();
+        //CheckTables.afterConnectCheckTables();
+
+        //BauanleitungVerwaltung.bauanleitungSuchen("Baum");
+
     }
 
-    // Interface
+    private static BauanleitungDAO dao = new BauanleitungDAO();
+
     @Override
-    public void bauanleitungSuchen(Bauanleitung ba)
+    public Bauanleitung bauanleitungSuchen(String name)
     {
-        /*
-        User: Eingabe: Bauanleitung Name
-        System: Suchanfrage senden
-        DB: Datenbank durchsuchen
-        DB: Bauanleitung liefern
-        System: Bauanleitung anzeigen
-        */
+        Bauanleitung ba = dao.sucheBauanleitungInDB(name);
+
+        if (ba != null)
+        {
+            System.out.println("Bauanleitung gefunden: ");
+            System.out.println(ba);
+        }
+        else
+        {
+            System.out.println("Keine Bauannleitung gefunden.");
+        }
+        return ba;
     }
 }
