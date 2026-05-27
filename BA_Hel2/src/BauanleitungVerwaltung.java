@@ -1,7 +1,8 @@
 import Entities.Bauanleitung;
 import Logisch.UserService;
-import dao.BauanleitungDAO;
+import dao.BauanleitungSuchenInDB;
 
+import java.util.List;
 
 public class BauanleitungVerwaltung implements UserService
 {
@@ -9,26 +10,28 @@ public class BauanleitungVerwaltung implements UserService
         //DBConnection.connect();
         //CheckTables.afterConnectCheckTables();
 
-        //BauanleitungVerwaltung.bauanleitungSuchen("Baum");
+        UserService us = new BauanleitungVerwaltung();
+        System.out.println(us.bauanleitungSuchen("Baum"));
 
     }
 
-    private static BauanleitungDAO dao = new BauanleitungDAO();
+    private static BauanleitungSuchenInDB dao = new BauanleitungSuchenInDB();
 
     @Override
-    public Bauanleitung bauanleitungSuchen(String name)
+    public List<Bauanleitung> bauanleitungSuchen(String name)
     {
-        Bauanleitung ba = dao.sucheBauanleitungInDB(name);
+        List<Bauanleitung> ListBa = dao.sucheBauanleitungInDB(name);
 
-        if (ba != null)
+        if (ListBa != null)
         {
             System.out.println("Bauanleitung gefunden: ");
-            System.out.println(ba);
+            System.out.println(ListBa);
+            return ListBa;
         }
         else
         {
             System.out.println("Keine Bauannleitung gefunden.");
+            return null;
         }
-        return ba;
     }
 }

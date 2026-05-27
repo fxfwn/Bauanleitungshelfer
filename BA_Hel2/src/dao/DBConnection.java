@@ -6,18 +6,30 @@ public class DBConnection
 {
     public static Connection connect()
     {
-        String url = "jdbc:sqlite:database/Bauanleitung.db";
-
-        try (Connection conn = DriverManager.getConnection(url))
+        try (Connection conn = DriverManager.getConnection(BauanleitungSuchenInDB.getUrl()))
         {
-            if (conn != null)
-            {
-                System.out.println("Verbindung zur SQLite DB wurde hergestellt.");
-            }
+            System.out.println("Verbindung zur SQLite DB wurde hergestellt.");
+            return conn;
         }
         catch (SQLException e) {
             System.out.println("Fehler bei der DB-Verbindung wurde entdeckt: " + e.getMessage());
         }
         return null;
+    }
+
+    // Nur zum Testen
+    public static void testConnection()
+    {
+        try (Connection conn = connect())
+        {
+            if (conn != null)
+            {
+                System.out.println("Test erfolgreich.");
+            }
+        }
+        catch (SQLException e)
+        {
+            System.out.println(e.getMessage());
+        }
     }
 }

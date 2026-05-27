@@ -2,6 +2,8 @@ package Logisch;
 
 import Entities.Bauanleitung;
 
+import java.util.List;
+
 public interface UserService {
-    Bauanleitung bauanleitungSuchen(String name);
+    List<Bauanleitung> bauanleitungSuchen(String name);
 }
