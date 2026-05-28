@@ -4,6 +4,10 @@ public class Bauanleitung {
     private int id;
     private String name;
 
+    public Bauanleitung(String name) {
+        this.name = name;
+    }
+
     public Bauanleitung(int id, String name) {
         this.id = id;
         this.name = name;
@@ -16,9 +20,6 @@ public class Bauanleitung {
     @Override
     public String toString()
     {
-        return "Gefundene Bauanleitung{ " +
-                "id='" + getId() +
-                "', name='" + getName() +
-                "' }";
+        return getName();
     }
 }

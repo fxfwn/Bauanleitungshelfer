@@ -24,7 +24,7 @@ public class BauanleitungSuchenInDB
 
     public List<Bauanleitung> sucheBauanleitungInDB(String name)
     {
-        String sql = "SELECT id, name FROM Bauanleitung WHERE name = ?";
+        String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
         try (Connection conn = DBConnection.connect())
         {
@@ -40,7 +40,6 @@ public class BauanleitungSuchenInDB
             while (rs.next())
             {
                 gefundeneBauanleitungen.add(new Bauanleitung(
-                        rs.getInt("id"),
                         rs.getString("name")
                 ));
             }
