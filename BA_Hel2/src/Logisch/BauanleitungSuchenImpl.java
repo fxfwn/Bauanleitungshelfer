@@ -17,7 +17,6 @@ public class BauanleitungSuchenImpl implements BauanleitungSuchen
         if (ListBa != null)
         {
             System.out.println("Bauanleitung gefunden: ");
-            System.out.println(ListBa);
             return ListBa;
         }
         else
