@@ -4,6 +4,6 @@ import Entities.Bauanleitung;
 
 import java.util.List;
 
-public interface UserService {
+public interface BauanleitungSuchen {
     List<Bauanleitung> bauanleitungSuchen(String name);
 }
