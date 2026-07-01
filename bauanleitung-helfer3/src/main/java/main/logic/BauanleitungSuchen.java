@@ -2,8 +2,8 @@ package main.logic;
 
 import main.entities.Bauanleitung;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public interface BauanleitungSuchen {
-    List<Bauanleitung> bauanleitungSuchen(String name);
+    ArrayList<String> bauanleitungSuchen(String name);
 }

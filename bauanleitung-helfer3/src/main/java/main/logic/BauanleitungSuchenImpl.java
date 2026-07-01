@@ -3,6 +3,7 @@ package main.logic;
 import main.entities.Bauanleitung;
 import main.dao.BauanleitungSuchenInDB;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class BauanleitungSuchenImpl implements BauanleitungSuchen
@@ -10,9 +11,9 @@ public class BauanleitungSuchenImpl implements BauanleitungSuchen
     private static BauanleitungSuchenInDB dao = new BauanleitungSuchenInDB();
 
     @Override
-    public List<Bauanleitung> bauanleitungSuchen(String name)
+    public ArrayList<String> bauanleitungSuchen(String name)
     {
-        List<Bauanleitung> ListBa = dao.sucheBauanleitungInDB(name);
+        ArrayList<String> ListBa = dao.sucheBauanleitungInDB(name);
 
         if (ListBa != null)
         {

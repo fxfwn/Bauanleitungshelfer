@@ -20,9 +20,9 @@ public class BauanleitungSuchenInDB
         return url;
     }
 
-    private List<Bauanleitung> gefundeneBauanleitungen = new ArrayList<>();
+    private final ArrayList<String> gefundeneBauanleitungNamen = new ArrayList<>();
 
-    public List<Bauanleitung> sucheBauanleitungInDB(String name)
+    public ArrayList<String> sucheBauanleitungInDB(String name)
     {
         String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
@@ -39,11 +39,9 @@ public class BauanleitungSuchenInDB
 
             while (rs.next())
             {
-                gefundeneBauanleitungen.add(new Bauanleitung(
-                        rs.getString("name")
-                ));
+                gefundeneBauanleitungNamen.add(rs.getString("name"));
             }
-            return gefundeneBauanleitungen;
+            return gefundeneBauanleitungNamen;
         }
         catch (SQLException e)
         {
