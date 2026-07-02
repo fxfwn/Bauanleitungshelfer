@@ -15,9 +15,9 @@ import static main.dao.DBConnection.disconnect;
 public class BauanleitungSuchenInDB
 {
 
-    private final ArrayList<String> gefundeneBauanleitungNamen = new ArrayList<>();
+    private final List<String> gefundeneBauanleitungNamen = new ArrayList<>();
 
-    public ArrayList<String> sucheBauanleitungInDB(String begriff)
+    public List<String> sucheBauanleitungInDB(String begriff)
     {
         String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
