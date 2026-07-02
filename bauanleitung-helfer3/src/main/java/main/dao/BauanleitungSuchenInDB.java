@@ -14,11 +14,6 @@ import java.util.Objects;
 
 public class BauanleitungSuchenInDB
 {
-    private static final String url = "jdbc:sqlite:database/Bauanleitung.db";
-
-    public static String getUrl() {
-        return url;
-    }
 
     private final ArrayList<String> gefundeneBauanleitungNamen = new ArrayList<>();
 
@@ -26,11 +21,8 @@ public class BauanleitungSuchenInDB
     {
         String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
-        try (Connection conn = DBConnection.connect())
+        try (Connection conn = DBConnection.getConnection())
         {
-            if (conn == null) {
-                return null;
-            }
 
             PreparedStatement preparedStmt = Objects.requireNonNull(conn).prepareStatement(sql);
             preparedStmt.setString(1, name);
@@ -41,12 +33,16 @@ public class BauanleitungSuchenInDB
             {
                 gefundeneBauanleitungNamen.add(rs.getString("name"));
             }
+            
+            DBConnection.disconnect();
             return gefundeneBauanleitungNamen;
         }
         catch (SQLException e)
         {
             System.out.println("Etwas hat nicht funktioniert: " + e.getMessage());
         }
+
+        DBConnection.disconnect();
         return null;
     }
 }

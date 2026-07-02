@@ -4,35 +4,31 @@ import java.sql.*;
 
 public class DBConnection
 {
-    public static Connection connect()
-    {
-        try
-        {
-            Connection conn = DriverManager.getConnection(
-                    BauanleitungSuchenInDB.getUrl());
+    private static final String URL = "jdbc:sqlite:database/Bauanleitung.db";
+    private static Connection connection;
 
-            System.out.println("Verbindung zur SQLite DB wurde hergestellt.");
-            return conn;
+    // Verbindung aufbauen und in Variable speichern
+    public static Connection getConnection() {
+        try {
+            if (connection == null || connection.isClosed()) {
+                connection = DriverManager.getConnection(URL);
+                System.out.println("Verbindung erfolgreich aufgebaut!");
+            }
+        } catch (SQLException e) {
+            System.err.println("Fehler beim Verbindungsaufbau: " + e.getMessage());
         }
-        catch (SQLException e) {
-            System.out.println("Fehler bei der DB-Verbindung wurde entdeckt: " + e.getMessage());
-            return null;
-        }
+        return connection;
     }
 
-    // Nur zum Testen
-    public static void testConnection()
-    {
-        try (Connection conn = connect())
-        {
-            if (conn != null)
-            {
-                System.out.println("Test erfolgreich.");
+    // Verbindung schließen
+    public static void disconnect() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Verbindung geschlossen.");
             }
-        }
-        catch (SQLException e)
-        {
-            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Fehler beim Schließen: " + e.getMessage());
         }
     }
 }
