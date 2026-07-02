@@ -21,10 +21,10 @@ public class DBConnection
     }
 
     // Verbindung schließen
-    public static void disconnect() {
+    public static void disconnect(Connection currentConnection) {
         try {
-            if (connection != null && !connection.isClosed()) {
-                connection.close();
+            if (currentConnection != null && !currentConnection.isClosed()) {
+                currentConnection.close();
                 System.out.println("Verbindung geschlossen.");
             }
         } catch (SQLException e) {

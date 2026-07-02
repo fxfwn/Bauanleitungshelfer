@@ -1,8 +1,5 @@
 package main.dao;
 
-import main.entities.Bauanleitung;
-
-import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -11,21 +8,23 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import static main.dao.DBConnection.getConnection;
+import static main.dao.DBConnection.disconnect;
+
 
 public class BauanleitungSuchenInDB
 {
 
     private final ArrayList<String> gefundeneBauanleitungNamen = new ArrayList<>();
 
-    public ArrayList<String> sucheBauanleitungInDB(String name)
+    public ArrayList<String> sucheBauanleitungInDB(String begriff)
     {
         String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
-        try (Connection conn = DBConnection.getConnection())
+        try
         {
-
-            PreparedStatement preparedStmt = Objects.requireNonNull(conn).prepareStatement(sql);
-            preparedStmt.setString(1, name);
+            PreparedStatement preparedStmt = Objects.requireNonNull(getConnection()).prepareStatement(sql);
+            preparedStmt.setString(1, begriff);
 
             ResultSet rs = preparedStmt.executeQuery();
 
@@ -33,8 +32,8 @@ public class BauanleitungSuchenInDB
             {
                 gefundeneBauanleitungNamen.add(rs.getString("name"));
             }
-            
-            DBConnection.disconnect();
+
+            disconnect(getConnection());
             return gefundeneBauanleitungNamen;
         }
         catch (SQLException e)
@@ -42,7 +41,6 @@ public class BauanleitungSuchenInDB
             System.out.println("Etwas hat nicht funktioniert: " + e.getMessage());
         }
 
-        DBConnection.disconnect();
         return null;
     }
 }
