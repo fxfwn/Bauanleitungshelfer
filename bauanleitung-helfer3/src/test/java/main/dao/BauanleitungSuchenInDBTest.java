@@ -1,14 +1,10 @@
 package main.dao;
 
-import main.entities.Bauanleitung;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class BauanleitungSuchenInDBTest {
 
@@ -19,7 +15,7 @@ class BauanleitungSuchenInDBTest {
 
         List<String> expected = List.of("Baum", "Bruecke", "Blumenbeet", "Bus", "Bank",
                                     "Brunnen", "Bushaltestelle");
-        List<String> result = testCase.sucheBauanleitungInDB("Ba%");
+        List<String> result = testCase.sucheBauanleitungNameInDB("Ba%");
 
         Assertions.assertEquals(expected, result);
     }

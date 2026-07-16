@@ -1,10 +1,9 @@
 package main.logic;
 
-import main.entities.Bauanleitung;
-
-import java.util.ArrayList;
 import java.util.List;
 
 public interface BauanleitungSuchen {
-    List<String> bauanleitungSuchen(String begriff);
+    List<String> suchanfrageStellen(String GUI_input_user);
+    List<String> bauanleitungFiltern(List<String> searchResult, String GUI_input_user);
+    List<String> bauanleitungGefunden(List<String> searchResult);
 }

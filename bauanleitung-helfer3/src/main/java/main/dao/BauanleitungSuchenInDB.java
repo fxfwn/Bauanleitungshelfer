@@ -17,14 +17,14 @@ public class BauanleitungSuchenInDB
 
     private final List<String> gefundeneBauanleitungNamen = new ArrayList<>();
 
-    public List<String> sucheBauanleitungInDB(String begriff)
+    public List<String> sucheBauanleitungNameInDB(String user_input)
     {
         String sql = "SELECT name FROM Bauanleitung WHERE name LIKE ?";
 
         try
         {
             PreparedStatement preparedStmt = Objects.requireNonNull(getConnection()).prepareStatement(sql);
-            preparedStmt.setString(1, begriff);
+            preparedStmt.setString(1, user_input);
 
             ResultSet rs = preparedStmt.executeQuery();
 
