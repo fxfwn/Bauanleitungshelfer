@@ -15,7 +15,7 @@ class BauanleitungSuchenInDBTest {
 
         List<String> expected = List.of("Baum", "Bruecke", "Blumenbeet", "Bus", "Bank",
                                     "Brunnen", "Bushaltestelle");
-        List<String> result = testCase.sucheBauanleitungNameInDB("Ba%");
+        List<String> result = testCase.sucheBauanleitungNameInDB("B%");
 
         Assertions.assertEquals(expected, result);
     }
