@@ -1,25 +1,20 @@
 package main.entities;
 
 public class Bauanleitung {
-    private int id;
-    private String name;
+    private int bau_id;
+    private String bau_name;
 
     public Bauanleitung(String name) {
-        this.name = name;
+        this.bau_name = name;
     }
 
-    public Bauanleitung(int id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public int getId() {return id;}
-    public String getName() {return name;}
+    public int getBau_id() {return bau_id;}
+    public String getBau_name() {return bau_name;}
 
 
     @Override
     public String toString()
     {
-        return getName();
+        return getBau_name();
     }
 }
