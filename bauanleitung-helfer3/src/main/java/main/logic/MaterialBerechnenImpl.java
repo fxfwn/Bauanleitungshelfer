@@ -12,64 +12,83 @@ import static main.dao.DBConnection.getConnection;
 
 public class MaterialBerechnenImpl implements MaterialBerechnen {
 
-    private HashMap<String, Integer> getTotal_material_list() {
-        return total_material_list;
+    public List<Rezeptposition> getDB_construction_manual() {
+        return DB_construction_manual;
     }
-    private void setTotal_material_list(HashMap<String, Integer> total_material_list) {
-        this.total_material_list = total_material_list;
+    public LinkedHashMap<String, Integer> getMaterial_List() {
+        return material_List;
     }
-    private HashMap<String, Integer> getCurrent_material_list() {
-        return current_material_list;
+    private void setRecipeList_construction_manual(List<Rezeptposition> recipeList_construction_manual) {
+        this.recipeList_construction_manual = recipeList_construction_manual;
     }
-    public void setEach_recipe_list_categorySet(List<Rezeptposition> each_recipe_list_categorySet) {
-        this.each_recipe_list_categorySet = each_recipe_list_categorySet;
+    public List<Rezeptposition> getRecipeList_construction_manual() {
+        return recipeList_construction_manual;
     }
-    private List<Rezeptposition> getEach_recipe_list_categorySet() {
-        return each_recipe_list_categorySet;
+    private void setRecipeList_following_items_part_of_set(List<Rezeptposition> recipeList_following_items_part_of_set) {
+        this.recipeList_following_items_part_of_set = recipeList_following_items_part_of_set;
     }
-    private void setEach_recipe_list_none_categorySet(List<Rezeptposition> each_recipe_list_none_categorySet) {
-        this.each_recipe_list_none_categorySet = each_recipe_list_none_categorySet;
-    }
-    private List<Rezeptposition> getEach_recipe_list_none_categorySet() {
-        return each_recipe_list_none_categorySet;
+    public List<Rezeptposition> getRecipeList_following_items_part_of_set() {
+        return recipeList_following_items_part_of_set;
     }
 
-    private HashMap<String, Integer> total_material_list;
-    private final HashMap<String, Integer> current_material_list = new HashMap<>();
+    private final List<Rezeptposition> DB_construction_manual = new ArrayList<>();
 
-    private List<Rezeptposition> each_recipe_list_categorySet = new ArrayList<>();
-    private List<Rezeptposition> each_recipe_list_none_categorySet = new ArrayList<>();
+    private final LinkedHashMap<String, Integer> material_List = new LinkedHashMap<>();
+    private List<Rezeptposition> recipeList_construction_manual = new ArrayList<>();
+    private List<Rezeptposition> recipeList_following_items_part_of_set = new ArrayList<>();
 
     @Override
-    public HashMap<String, Integer> materialBerechnen(String getBauanleitung_name) {
-        setEach_recipe_list_none_categorySet(getEach_recipe_list_categorySet());
+    public LinkedHashMap<String, Integer> materialBerechnen(String construction_manual)
+    {
+        setRecipeList_construction_manual(
+                sucheMaterial(construction_manual)
+        );
 
-        System.out.println(getEach_recipe_list_none_categorySet().get(2).getKom_name());
-        System.out.println(getEach_recipe_list_none_categorySet().get(2).getRez_menge());
-        for (var check_category = 0; check_category < getEach_recipe_list_none_categorySet().size(); check_category++) {
+        int check_RecipePosition;
+        for (check_RecipePosition = 0; check_RecipePosition < getRecipeList_construction_manual().size(); check_RecipePosition++)
+        {
+            Rezeptposition recipePosition_item = getRecipeList_construction_manual().get(check_RecipePosition);
 
-            // category not equal to Set
-            if (!getEach_recipe_list_none_categorySet().get(check_category).getKom_kategorie().equals("Set")) {
-                current_material_list.put(getEach_recipe_list_none_categorySet().get(check_category).getKom_name(),
-                        getEach_recipe_list_none_categorySet().get(check_category).getRez_menge());
+            if (!recipePosition_item.getKom_kategorie().equals("Set"))
+            {
+                material_List.merge(
+                        recipePosition_item.getKom_name(),
+                        recipePosition_item.getRez_menge(),
+                        Integer::sum
+                );
                 continue;
             }
 
-            // category equals Set
-            sucheMaterial(getEach_recipe_list_none_categorySet().get(check_category).getKom_name());
+            recipeList_following_items_part_of_set.add(recipePosition_item);
+        }
 
-            for (var check_category_of_set = 0; check_category_of_set < getEach_recipe_list_categorySet().size(); check_category++) {
-                current_material_list.put(getEach_recipe_list_categorySet().get(check_category_of_set).getKom_name(),
-                        getEach_recipe_list_categorySet().get(check_category_of_set).getRez_menge());
+        if (!getRecipeList_following_items_part_of_set().isEmpty())
+        {
+            for (int check_RecipePosition_Set = 0; check_RecipePosition_Set < getRecipeList_following_items_part_of_set().size(); check_RecipePosition_Set++)
+            {
+                setRecipeList_construction_manual(
+                        sucheMaterial(getRecipeList_following_items_part_of_set().get(check_RecipePosition_Set).getKom_name())
+                );
+
+                for (check_RecipePosition = 0; check_RecipePosition < getRecipeList_construction_manual().size(); check_RecipePosition++)
+                {
+                    Rezeptposition recipePosition_item = getRecipeList_construction_manual().get(check_RecipePosition);
+
+                    material_List.merge(
+                            recipePosition_item.getKom_name(),
+                            recipePosition_item.getRez_menge() *
+                                    getRecipeList_following_items_part_of_set().get(check_RecipePosition_Set).getRez_menge(),
+                            Integer::sum
+                    );
+                }
             }
         }
 
-        setTotal_material_list(current_material_list);
-        return getTotal_material_list();
+        return getMaterial_List();
     }
 
     @Override
-    public List<Rezeptposition> sucheMaterial(String getBauanleitung_name) {
+    public List<Rezeptposition> sucheMaterial(String construction_manual) {
         String sql = "SELECT kom.id, kom.name, kom.kategorie, rez.menge " +
                     "FROM Rezeptposition rez " +
                     "INNER JOIN Bauanleitung bau " +
@@ -80,20 +99,20 @@ public class MaterialBerechnenImpl implements MaterialBerechnen {
 
         try {
             PreparedStatement preparedStmt = Objects.requireNonNull(getConnection()).prepareStatement(sql);
-            preparedStmt.setString(1, getBauanleitung_name);
+            preparedStmt.setString(1, construction_manual);
 
             ResultSet rs = preparedStmt.executeQuery();
 
-            each_recipe_list_categorySet.clear();
+            DB_construction_manual.clear();
             while (rs.next()) {
-                each_recipe_list_categorySet.add(new Rezeptposition(getBauanleitung_name,
+                DB_construction_manual.add(new Rezeptposition(construction_manual,
                         rs.getInt(1),
                         rs.getString(2),
                         rs.getString(3),
                         rs.getInt(4))
                 );
             }
-            return each_recipe_list_categorySet;
+            return getDB_construction_manual();
 
         } catch (SQLException e) {
             System.out.println("Etwas hat nicht funktioniert: " + e.getMessage());
