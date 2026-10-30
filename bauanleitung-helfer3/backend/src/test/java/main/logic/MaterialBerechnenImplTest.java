@@ -1,6 +1,6 @@
 package main.logic;
 
-import main.entities.Rezeptposition;
+import main.entities.JavaRezeptposition;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -31,11 +31,11 @@ class MaterialBerechnenImplTest {
         put("Minifigur Torso", 1); put("Minifigur Beine", 1); put("1x1 Stein Rot", 1);
     }};
 
-    Rezeptposition input_Not_0 = new Rezeptposition("Not%", 116, "Feuerwehrauto", "Set", 2);
-    Rezeptposition input_Not_1 = new Rezeptposition("Not%", 117, "Polizeiauto", "Set", 2);
-    Rezeptposition input_Not_2 = new Rezeptposition("Not%", 106, "Garage", "Set", 1);
-    Rezeptposition input_Not_3 = new Rezeptposition("Not%", 124, "Minifigur", "Set", 6);
-    List<Rezeptposition> input_Not = List.of(input_Not_0, input_Not_1, input_Not_2, input_Not_3);
+    JavaRezeptposition input_Not_0 = new JavaRezeptposition("Not%", 116, "Feuerwehrauto", "Set", 2);
+    JavaRezeptposition input_Not_1 = new JavaRezeptposition("Not%", 117, "Polizeiauto", "Set", 2);
+    JavaRezeptposition input_Not_2 = new JavaRezeptposition("Not%", 106, "Garage", "Set", 1);
+    JavaRezeptposition input_Not_3 = new JavaRezeptposition("Not%", 124, "Minifigur", "Set", 6);
+    List<JavaRezeptposition> input_Not = List.of(input_Not_0, input_Not_1, input_Not_2, input_Not_3);
 
     @Test
     void addAllMaterials_Single_construction_manual() {
@@ -51,7 +51,7 @@ class MaterialBerechnenImplTest {
 
     @Test
     void compareContents() {
-        List<Rezeptposition> objArr = material_obj.sucheMaterial("Not%");
+        List<JavaRezeptposition> objArr = material_obj.sucheMaterial("Not%");
         Assertions.assertEquals(input_Not_3.toString(), objArr.getLast().toString());
     }
 }
