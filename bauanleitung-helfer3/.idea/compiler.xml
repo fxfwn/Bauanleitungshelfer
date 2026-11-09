@@ -7,10 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="bauanleitung-helfer3" />
+        <module name="backend" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="BA_Hel2" target="1.5" />
+      <module name="backend" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
