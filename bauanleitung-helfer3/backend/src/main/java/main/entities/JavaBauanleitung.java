@@ -1,10 +1,10 @@
 package main.entities;
 
-public class Bauanleitung {
+public class JavaBauanleitung {
     private int bau_id;
     private String bau_name;
 
-    public Bauanleitung(String name) {
+    public JavaBauanleitung(String name) {
         this.bau_name = name;
     }
 

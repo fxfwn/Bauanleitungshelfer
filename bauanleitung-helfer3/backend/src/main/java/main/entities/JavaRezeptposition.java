@@ -1,6 +1,6 @@
 package main.entities;
 
-public class Rezeptposition {
+public class JavaRezeptposition {
     private String bau_name;
     private int kom_id;
     private String kom_name;
@@ -27,7 +27,7 @@ public class Rezeptposition {
         return rez_menge;
     }
 
-    public Rezeptposition(String bau_name, int kom_id, String kom_name, String kom_kate, int rez_men) {
+    public JavaRezeptposition(String bau_name, int kom_id, String kom_name, String kom_kate, int rez_men) {
         this.bau_name = bau_name;
         this.kom_id = kom_id;
         this.kom_name = kom_name;
