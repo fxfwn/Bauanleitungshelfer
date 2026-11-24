@@ -4,7 +4,7 @@ import java.sql.*;
 
 public class DBConnection
 {
-    private static final String URL = "jdbc:sqlite:database/Bauanleitung.db";
+    private static final String URL = "jdbc:sqlite:backend/database/Bauanleitung.db";
     private static Connection connection;
 
     // Verbindung aufbauen und in Variable speichern
